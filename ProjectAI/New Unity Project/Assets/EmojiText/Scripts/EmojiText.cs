@@ -112,7 +112,7 @@ public class EmojiText : Text
                     GameObject go = new GameObject("emoji");
                     image = go.AddComponent<Image>();
                     go.transform.SetParent(transform);
-                    go.transform.localScale = Vector3.one;
+                    //go.transform.localScale = Vector3.one;
                 }
                 else
                 {

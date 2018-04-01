@@ -33,6 +33,9 @@ public class Game : MonoBehaviour {
     UnknownWord[] _Words = null;
     public UnknownWord[] Words { get { return _Words; } }
 
+    [SerializeField]
+    SubText _SubText = null;
+
     [Header("Prefabs")]
     [SerializeField]
     GameObject[] _PrefabChat = null;
@@ -62,6 +65,8 @@ public class Game : MonoBehaviour {
     [Header("Other")]
     [SerializeField]
     GameObject _Answer = null;
+    [SerializeField]
+    Image _Back = null;
 
     //private
     List<int> _WordList = new List<int>();
@@ -181,6 +186,35 @@ public class Game : MonoBehaviour {
     public void ShowAnswer()
     {
         _Answer.SetActive(true);
+    }
+
+    public void ChangeBack()
+    {
+        StartCoroutine(_ChangeBack(_Back,(_Back.color.a > 0.01f)));
+    }
+    IEnumerator _ChangeBack(Image img,bool isHide)
+    {
+        int iv = (isHide) ? 1 : 0;
+        int ope = (isHide) ? -1 : 1;
+        float progress = 0.0f;
+        while(progress < 1.0f)
+        {
+            progress += 0.05f;
+            img.color = new Color(img.color.r, img.color.g, img.color.b, iv + progress * ope);
+            yield return null;
+        }
+    }
+
+    public void PushMessage(string mes, int id)
+    {
+        var name = "";
+        switch(id)
+        {
+            case 0:name = "エイダ:";break;
+            case 1:name = "バベッジ:";break;
+            case 2:name = "おじさん:";break;
+        }
+        _SubText.Push(name + mes);
     }
 
     IEnumerator ScrollToBottom(ScrollRect rect, RectTransform trans)

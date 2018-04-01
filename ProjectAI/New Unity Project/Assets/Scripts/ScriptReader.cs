@@ -96,6 +96,19 @@ public class ScriptReader : MonoBehaviour {
                 var time = float.Parse(s.Substring(1));
                 yield return new WaitForSeconds(time);
             }
+            else if(s[0] == '*')
+            {
+                //システムコマンド
+                string command = s.Substring(1);
+
+                switch(command)
+                {
+                    case "back":
+                        Game.GetInstance().ChangeBack();
+                        break;
+                }
+
+            }
             else
             {
                 //@を改行文字に置き換え
@@ -110,14 +123,17 @@ public class ScriptReader : MonoBehaviour {
                 if(_OutPort == PORT.Chat)
                 {
                     game.SendChat(_OutId, str);
+                    game.PushMessage(str, _OutId);
                 }
                 else
                 {
                     game.SendHistory(str);
+                    game.PushMessage(str, 2);
                 }
+                
             }
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(2.0f);
         }
     }
 
